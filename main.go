@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"net/http"
 
 	"github.com/elastic/beats/libbeat/beat"
 
