@@ -1,0 +1,5 @@
+= Stormbeat Docs
+
+Welcome to the Stormbeat documentation.
+
+
