@@ -7,3 +7,13 @@
       required: true
       description: >
         PLEASE UPDATE DOCUMENTATION
+    - name: city
+      type: text
+    - name: temperature
+      type: long
+    - name: pressure
+      type: integer
+    - name: humidity
+      type: integer
+    - name: windspeed
+      type: integer

@@ -13,7 +13,7 @@ type WeatherData struct {
     Humidity int `json:"humidity"`
   } `json:"main"`
   Wind struct {
-    Speed float64 `json:"speed"`
+    Speed int `json:"speed"`
   } `json:"wind"`
 }
 

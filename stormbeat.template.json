@@ -83,7 +83,25 @@
   "order": 0,
   "settings": {
     "index.mapping.total_fields.limit": 10000,
-    "index.refresh_interval": "5s"
+    "index.refresh_interval": "5s",
+    "analysis": {
+      "analyzer": {
+        "weather_analyzer": {
+          "tokenizer": "weather_tokenizer"
+        }
+      },
+      "tokenizer": {
+        "weather_tokenizer": {
+          "type": "ngram",
+          "min_gram": "2",
+          "max_gram": "3",
+          "token_chars": [
+            "letter",
+            "digit"
+          ]
+        }
+      }
+    }
   },
   "template": "stormbeat-*"
 }

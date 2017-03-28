@@ -7,12 +7,12 @@ import "time"
 
 type Config struct {
 	Period time.Duration `config:"period"`
-	apiKey string `config:"apikey"`
-	city string `config:"city"`
+	ApiKey string `config:"apikey"`
+	City string `config:"city"`
 }
 
 var DefaultConfig = Config{
 	Period: 20 * time.Second,
-	apiKey: "",
-	city: "NewYork",
+	ApiKey: "",
+	City: "NewYork",
 }

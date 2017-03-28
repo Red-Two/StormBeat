@@ -8,7 +8,7 @@ import (
 	"github.com/elastic/beats/libbeat/common"
 	"github.com/elastic/beats/libbeat/logp"
 	"github.com/elastic/beats/libbeat/publisher"
-	//"github.com/red-two/stormbeat/weather"
+	weather "github.com/red-two/stormbeat/weather"
 	"github.com/red-two/stormbeat/config"
 )
 
@@ -38,24 +38,17 @@ func (bt *Stormbeat) Run(b *beat.Beat) error {
 
 	bt.client = b.Publisher.Connect()
 	ticker := time.NewTicker(bt.config.Period)
-	counter := 1
+	// counter := 1
 	for {
-		// now := time.Now()
-		// bt.query()
+		now := time.Now()
+		bt.query(bt.config.City, b.Name)
+		bt.lastIndexTime = now
+		logp.Info("Event Sent")
 		select {
 		case <-bt.done:
 			return nil
 		case <-ticker.C:
 		}
-
-		event := common.MapStr{
-			"@timestamp": common.Time(time.Now()),
-			"type":       b.Name,
-			"counter":    counter,
-		}
-		bt.client.PublishEvent(event)
-		logp.Info("Event sent")
-		counter++
 	}
 }
 
@@ -64,17 +57,20 @@ func (bt *Stormbeat) Stop() {
 	close(bt.done)
 }
 
-// func (bt *Stormbeat) query(city string, beatname string) (weatherData, error) {
-//   config := config.DefaultConfig
-// 	apiKey := config.apiKey
-//   resp, err := http.Get("http://api.openweathermap.org/data/2.5/weather?APPID=" + apiKey + "&q=" + city)
-//   if err != nil {
-//     return weatherData{}, err
-//   }
-//   defer resp.Body.Close()
-//   var d weatherData
-//   if err := json.NewDecoder(resp.Body).Decode(&d); err != nil {
-//     return weatherData{}, err
-//   }
-//   return d, nil
-// }
+func (bt *Stormbeat) query(city string, beatname string){
+	apiKey := bt.config.ApiKey
+  d, err := weather.Query(city, apiKey)
+  if err != nil {
+		event := common.MapStr{
+			"@timestamp": common.Time(time.Now()),
+			"type": beatname,
+			"city": d.Name,
+			"temperature": d.Main.Kelvin,
+			"pressure": d.Main.Pressure,
+		  "humidity": d.Main.Humidity,
+			"windspeed": d.Wind.Speed,
+		}
+		fmt.Println(event)
+		bt.client.PublishEvent(event)
+	}
+}
