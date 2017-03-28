@@ -1,42 +1,31 @@
-package main
+package weather
 
 import (
   "encoding/json"
-  //"flag"
-  "log"
   "net/http"
-  "strings"
-  "time"
 )
 
-type weatherData struct {
+type WeatherData struct {
   Name string `json:"name"`
   Main struct {
     Kelvin float64 `json:"temp"`
+    Pressure int `json:"pressure"`
+    Humidity int `json:"humidity"`
   } `json:"main"`
+  Wind struct {
+    Speed float64 `json:"speed"`
+  } `json:"wind"`
 }
 
-func query(){
-
-}
-
-type openWeatherMap struct{}
-
-func (w openWeatherMap) temperature(city string) (float64, error) {
-  apiKey := ""
-  resp, err := http.Get("http://api.openweathermap.org/data/2.5/weather?APPID=" + apiKey + "&q=" + city)
+func Query(city string, apiKey string)(WeatherData, error){
+  resp, err := http.Get("http://api.openweathermap.org/data/2.5/weather?APPID="+ apiKey +"&q=" + city)
   if err != nil {
-    return 0, err
+    return WeatherData{}, err
   }
   defer resp.Body.Close()
-  var d struct {
-    Main struct {
-      Kelvin float64 `json:"temp"`
-    } `json:"main"`
-  }
+  var d WeatherData
   if err := json.NewDecoder(resp.Body).Decode(&d); err != nil {
-    return 0, err
+    return WeatherData{}, err
   }
-  log.Printf("openWeatherMap: %s: %.2f", city, d.Main.Kelvin)
-  return d.Main.Kelvin, nil
+  return d, nil
 }

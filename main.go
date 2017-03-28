@@ -1,17 +1,17 @@
 package main
 
 import (
-	"os"
-	"net/http"
-
-	"github.com/elastic/beats/libbeat/beat"
-
-	"github.com/red-two/stormbeat/beater"
+  //"os"
+	"fmt"
+	//"github.com/elastic/beats/libbeat/beat"
+	//"github.com/red-two/stormbeat/beater"
+	weather "github.com/red-two/stormbeat/weather"
 )
 
 func main() {
-	err := beat.Run("stormbeat", "", beater.New)
-	if err != nil {
-		os.Exit(1)
-	}
+	fmt.Println(weather.Query("Rochester", ""))
+	// err := beat.Run("stormbeat", "", beater.New)
+	// if err != nil {
+	// 	os.Exit(1)
+	// }
 }

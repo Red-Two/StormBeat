@@ -14,5 +14,5 @@ type Config struct {
 var DefaultConfig = Config{
 	Period: 20 * time.Second,
 	apiKey: "",
-	city: "NewYork"
+	city: "NewYork",
 }

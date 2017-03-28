@@ -6,7 +6,7 @@ stormbeat:
   # Defines how often an event is sent to the output
   period: 20s
   city: "NewYork"
-  apiKey: ""
+  apiKey: "63c43a8187390586d5dbb89fe9567a66"
 
 #================================ General =====================================
 
